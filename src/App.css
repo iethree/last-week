@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+:host, html, html:after {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -moz-tab-size: 4;
+  tab-size: 4;
+  font-family: Segoe UI,ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Symbol,Noto Color Emoji;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  @apply bg-gray-950 min-h-screen text-gray-200;
+}
