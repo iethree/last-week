@@ -1,8 +1,10 @@
 export function Result() {
+  // @ts-expect-error - doing unsafe stuff here
   const email = document.querySelector('[name="email"]')?.value;
+  // @ts-expect-error - doing unsafe stuff here
   const whatIDidLastWeek = document.querySelector('[name="email"]')?.value;
 
-  const { message, level } = getMessage({ email, work: whatIDidLastWeek });
+  const { message } = getMessage({ email, work: whatIDidLastWeek });
 
   return (
     <Notification message={message} level={message.includes('Invalid') ? 'error' : 'info'} />
@@ -37,13 +39,13 @@ function getMessage({ email, work }: { email: string, work: string }) {
   }
 };
 
-function Notification({ message, level }: { message: string, level: 'info' | 'error' }) {
-  const colors = {
-    error: 'bg-red-50 text-red-800 border-red-300 dark:bg-red-800 dark:text-red-50 dark:border-red-800',
-    warning: 'bg-yellow-50 text-yellow-800 border-yellow-300 dark:bg-yellow-800 dark:text-yellow-50 dark:border-yellow-800',
-    success: 'bg-green-50 text-green-800 border-green-300 dark:bg-green-800 dark:text-green-50 dark:border-green-800',
-    info: 'bg-blue-50 text-blue-800 border-blue-300 dark:bg-blue-800 dark:text-blue-50 dark:border-blue-800',
-  };
+function Notification({ message }: { message: string, level: 'info' | 'error' }) {
+  // const colors = {
+  //   error: 'bg-red-50 text-red-800 border-red-300 dark:bg-red-800 dark:text-red-50 dark:border-red-800',
+  //   warning: 'bg-yellow-50 text-yellow-800 border-yellow-300 dark:bg-yellow-800 dark:text-yellow-50 dark:border-yellow-800',
+  //   success: 'bg-green-50 text-green-800 border-green-300 dark:bg-green-800 dark:text-green-50 dark:border-green-800',
+  //   info: 'bg-blue-50 text-blue-800 border-blue-300 dark:bg-blue-800 dark:text-blue-50 dark:border-blue-800',
+  // };
 
   return (
     <div id="alert-additional-content-1" className="p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">
