@@ -1,5 +1,6 @@
 import {useState, useEffect } from 'react'
 import { Result } from './Result';
+import { getLoadingMessage } from './messages';
 
 export const Form = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +17,7 @@ export const Form = () => {
         <a
           target="_blank"
           href="https://x.com/doge"
-          className="bg-slate-100 py-1.5 px-3 text-gray-950 rounded-lg text-center font-semibold items-center flex hover:bg-red-800 hover:text-white"
+          className="bg-slate-100 py-1.5 px-3 text-gray-950 rounded-lg text-center font-semibold items-center flex hover:bg-red-800 hover:text-white" style={{ flexShrink: 0 }}
         >
           Submit on
           <svg width="12.5" height="12.78125" viewBox="0 0 1200 1227" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline-block ml-2"><path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z" fill="black"></path></svg></a>
@@ -25,8 +26,7 @@ export const Form = () => {
         Government email
       </label>
       <input
-        type="email" id="email" name="email" className="w-full border-gray-400 border-2 rounded-lg p-3 mb-3 disabled:text-red-800"
-        placeholder="government email"
+        type="email" id="email" name="email" className="w-full border-gray-400 border-2 rounded-lg p-3 mb-3 disabled:text-red-700"
         disabled={disableForm}
       />
 
@@ -35,7 +35,7 @@ export const Form = () => {
       </label>
       <textarea
         name="what-i-did-last-week"
-        className="h-64 w-full border-gray-400 border-2 rounded-lg p-3 disabled:text-red-800"
+        className="h-64 w-full border-gray-400 border-2 rounded-lg p-3 disabled:text-red-700"
         disabled={disableForm}
       ></textarea>
       <div className="flex justify-between mt-2 pb-12">
@@ -49,7 +49,7 @@ export const Form = () => {
         <button
           className="bg-slate-100 py-1.5 px-3 text-gray-950 rounded-lg text-center font-semibold items-center flex hover:bg-red-800 hover:text-white cursor-pointer"
           onClick={() => setIsLoading(true)}
-          disabled={isLoading}
+          disabled={disableForm}
         >
           Submit
         </button>
@@ -65,13 +65,25 @@ function LoadingSpinner() {
   )
 }
 
+
 function LoadingComponent({ isLoading, onComplete }: { isLoading: boolean, onComplete: () => void }) {
+  const [message, setMessage] = useState(getLoadingMessage());
+
   useEffect(() => {
     if (isLoading) {
+      const interval = setInterval(() => {
+        setMessage(getLoadingMessage());
+      }, 1500);
+
+      return () => clearInterval(interval);
+    }
+  }, [isLoading, onComplete]);
+
+  useEffect(() => {
+    if(isLoading) {
       const timeout = setTimeout(() => {
         onComplete();
-      }, 500);
-
+      }, 5000);
       return () => clearTimeout(timeout);
     }
   }, [isLoading, onComplete]);
@@ -80,12 +92,10 @@ function LoadingComponent({ isLoading, onComplete }: { isLoading: boolean, onCom
     return (
       <div className="flex items-center ml-5">
         <LoadingSpinner />
-        Praying to DOGE...
+        {message}
       </div>
     );
   }
 
   return <div/>;
 }
-
-
