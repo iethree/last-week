@@ -8,9 +8,9 @@ export const Form = () => {
   const disableForm = isLoading || showResult;
 
   return (
-    <div>
-      <div className="flex flex-row justify-between mb-5">
-        <h2 className="text-3xl">
+    <div className="mb-12">
+      <div className="flex flex-row justify-between mb-4">
+        <h2 className="text-xl md:text-3xl ">
           What did you do last week?
         </h2>
         <a
